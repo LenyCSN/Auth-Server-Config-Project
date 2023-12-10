@@ -1,1 +1,1 @@
-# Auth-Server-Config-Project
+# CSN150 Auth-Server-Config-Project
