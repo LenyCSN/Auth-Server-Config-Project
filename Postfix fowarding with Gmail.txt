@@ -1,0 +1,45 @@
+—--------Send only Email on Ubuntu from Gmail with SMTP Postfix—------------------------
+
+
+// Ensure Ubuntu has the latest packages installed
+
+> sudo apt-get update && sudo apt-get upgrade
+
+// postfix installation
+
+// During the install, you will be asked for a domain name. It doesn't have to be a real domain name in this case because we will leverage Gmail servers. Any name will suffice in this case. Ensure you also select "Internet Site" for the Postfix Configuration menu.
+
+> sudo apt-get install postfix
+
+// Now create a vim with our sasl settings and input that Gmail is on port 587 and input source email and password. It's recommended that you use Google app passwords for this purpose.
+
+> sudo vim /etc/postfix/sasl/sasl_passwd
+
+// Input the following line in the file and hit esc > :wq to save and exit
+> [smtp.gmail.com]:587 llenndecoy1@gmail.com:bcifcrgmwkbaaceg
+
+> sudo vim /etc/postfix/main.cf
+
+// look for the”‘relayhost =” and insert “[smtp.gmail.com]:587”
+
+> relayhost = [smtp.gmail.com]:587
+
+// add the following lines at the end of the code to enable sasl. Note: click the “a” key 
+
+> to start typing normally.
+
+> # Enable SASL authentication
+> smtp_sasl_auth_enable = yes
+> smtp_sasl_security_options = noanonymous
+> smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd
+> smtp_tls_security_level = encrypt
+> smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+
+// save and exit. Then restart postfix.
+
+> sudo systemctl restart postfix
+
+—----------end of config —------------------------------------------------------
+
+
+

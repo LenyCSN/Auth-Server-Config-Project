@@ -1,0 +1,50 @@
+—--------------- Google Authenticator initial config —------------------------
+// SSH into your user or root
+
+> sudo apt install libpam-google-authenticator -y
+> google-authenticator
+
+// **** ( You’ll be asked if you want authentication tokens to be time-based, which you want so type y and hit Enter. You will then be presented with a QR code that can be scanned by your 2FA application or if it appears broken, copy and paste the url directly above the QR code for an image of the code in your browser instead. Additionally, record the secret key and emergency scratch codes for use strictly when a phone or your authenticator is unavailable. You will then use an authenticator app on your phone for 2FA. Any Authenticator app can be used such as Aegis Authenticator or the Google Authenticator. For this instance Authy will be used. Proceed to link and answer the immediate questions in command prompt. ) ****
+
+// shh into the remaining user(s) and give it at 2FA profile.
+// scan the QR code and continue with the initial setup. SSH and repeat the above command for each profile on the server.
+
+> google-authenticator
+
+// configure the ssh daemon files to use 2FA
+
+> sudo nano /etc/ssh/sshd_config
+
+// Find the following two parameters below in the config file and make sure both of them are set to “yes”.
+// Note: On Ubuntu 22.04, the “ChallengeResponseAuthentication” may be changed to “KbdInteractiveAuthentication”. Make sure it’s set to “yes”
+
+> UsePAM yes
+> ChallengeResponseAuthentication yes
+
+// If you want to allow the root user to use 2FA, find PermitRootLogin and set its value to yes and save.
+
+> PermitRootLogin yes
+
+// save file ( Ctrl+X > Y > Enter) or  Ctrl+O > Enter key > exit using Crtrl+X
+
+> sudo nano /etc/pam.d/sshd
+
+// To enable 2FA in SSH, add the following two lines Under the line @include common-auth, add the following lines and save.
+
+> # Two-factor authentication via Google Authenticator
+> auth required pam_google_authenticator.so
+
+// restart the ssh daemon
+> sudo systemctl restart sshd.service
+
+// exit and test
+
+
+—------------ Google Authenticator initial config end —---------------------------
+
+Note: 
+Each user on your Ubuntu 22.04 server needs to run google-authenticator command and scan QR code in order to use the two-factor authentication process. If the user didn’t set up and tries to login, they will be unable to do so until a profile is set up. (you may need to disable 2FA if you enabled it before creating a 2FA account for all users.
+
+Be mindful that the Emergency Scratch Code, your backup codes, are for one-time use only.
+
+If you want to change the secret key, simply log into your server and run google-authenticator command again to update the ~/.google_authenticator file.

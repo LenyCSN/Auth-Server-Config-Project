@@ -1,0 +1,19 @@
+Prerequisites: Base Ubuntu 22.04 LTS Server configurations with 1 sudo users 
+
+Note: SSH Keys won’t be used for simplicity and demonstration purposes but only a few settings would have to be changed to accommodate SSH Keys in the used services for this project.
+
+—---------------------------- root config —-----------
+
+apt update
+
+adduser [INSERT YOUR DESIRED PASSWORD] 
+usermod -aG sudo [USERNAME]
+
+ufw app list
+ufw allow OpenSSH
+ufw enable
+ufw status
+
+---------------------------end-------------------------
+
+ **** ( The firewall config is currently blocking all connections except for SSH. If you install and configure additional services, you will need to adjust the firewall settings to allow the new traffic into your server. You can learn some common UFW operations in https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands) ****

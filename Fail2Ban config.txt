@@ -1,0 +1,46 @@
+—-----------------------Fail2Ban config—--------------------------------
+
+> sudo apt install fail2ban
+> cd /etc/fail2ban
+
+// the jail.conf file isn't to be edited, so we make a copy of the file and edit that instead.
+
+> sudo cp jail.conf jail.local
+> sudo nano jail.local
+
+// Whitelist your own server,  edit jail.local and uncomment the ‘ignoreip’ line. You can also add other IP addresses, and they should be separated with a space or comma.
+
+> ignoreip = 127.0.0.1/8 ::1 (your ip and/or server ip)
+
+// The bantime parameter sets the length of time that a client will be banned when they have failed to authenticate correctly. This is measured in seconds. By default, this is set to 10 minutes.
+# "bantime" is the number of seconds that a host is banned.
+
+bantime  = 10m
+
+// these affect how many retries you get to input a password and what window of time of failures are recorded. If both requirements are met, ip gets banned.
+# A host is banned if it has generated "maxretry" during the last "findtime"# seconds.
+findtime  = 10m
+# "maxretry" is the number of failures before a host get banned.
+maxretry = 5. Note: when ssh, you get about 3 tries before it ends the session and you have to ssh again by default. The "maxretry" value counts the 3 tries as only 1 "maxretry" penalty.
+
+findtime  = 10m
+maxretry = 2
+
+// To receive email alerts when Fail2ban bans an ip, you should evaluate the destemail, sendername, and mta settings. The destemail parameter sets the email address that will receive the ban messages. The sendername sets the value of the “From” field in the email. The mta parameter configures what mail service will be used to send mail. By default, this is sendmail. You may want to use postfix instead, it will be used for this configuration
+
+destemail = …
+sender = …
+mta = postfix
+
+// lower in the article you find the JAILS settings. Enable the [sshd] by typing “enabled = true” 
+[sshd]
+enabled = true
+
+// save and exit the conf file
+// now restart and enable fail2ban
+
+> sudo systemctl enable fail2ban
+> sudo systemctl start fail2ban
+
+
+--------------confif end ---------------
