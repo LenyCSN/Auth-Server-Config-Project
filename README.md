@@ -9,9 +9,9 @@
 ### Documentation Links:
 1. [Deploying initial Ubuntu 22.04 LTS Server](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-22-04)
 
-2. [Google Authentication deployment]([https://www.espressif.com/en/support/download/other-tools](https://www.linuxbabe.com/ubuntu/two-factor-authentication-ssh-key-ubuntu))
+2. [Google Authentication deployment](https://www.linuxbabe.com/ubuntu/two-factor-authentication-ssh-key-ubuntu)
 
-3. [Postfix deployment with Gmail forwarding SMTP traffic]([https://www.the-art-of-web.com/system/fail2ban-log/#google_vignette](https://tonyteaches.tech/postfix-gmail-smtp-on-ubuntu/))
+3. [Postfix deployment with Gmail forwarding SMTP traffic](https://tonyteaches.tech/postfix-gmail-smtp-on-ubuntu/)
 
 4. [Fail2ban](https://www.digitalocean.com/community/tutorials/how-to-protect-ssh-with-fail2ban-on-ubuntu-22-04)
 
